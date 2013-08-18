@@ -230,6 +230,7 @@ end
 					done = true
 					cstat = "CLEAR"
 					exitstat = "REFRESH"
+					send({ "CLEAR", cfg })
 				end
 			end
 		end
