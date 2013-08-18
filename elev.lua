@@ -59,6 +59,21 @@ function nextLine(n)
 	term.setCursorPos(x, y + n)
 end
 
+-- Update
+	local url = "https://raw.github.com/Sxw1212/SkyScraper/master/elev.lua"
+	local res = http.get(url)
+	if res then
+		local fh = fs.open("/startup", "w")
+		fh.write(res.readAll())
+		fh.close()
+	else
+		clear()
+		centerPrint("SkyScraper")
+		nextLine()
+		centerPrint("Warning: Updater failed")
+		sleep(1)
+	end
+	
 -- System test
 
 	clear()
