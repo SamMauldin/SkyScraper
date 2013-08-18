@@ -228,7 +228,7 @@ end
 				os.pullEvent("redstone")
 				if rs.getBundledInput("bottom") == colors.magenta then
 					done = true
-					cstat == "CLEAR"
+					cstat = "CLEAR"
 					exitstat = "REFRESH"
 				end
 			end
