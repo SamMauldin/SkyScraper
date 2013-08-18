@@ -110,7 +110,7 @@ end
 
 -- Helper functions
 	function send(msg)
-		modem.tramsmit(PORT, PORT, PREFIX .. textutils.serialize(msg))
+		MODEM.tramsmit(PORT, PORT, PREFIX .. textutils.serialize(msg))
 	end
 	
 	function recv()
@@ -134,7 +134,7 @@ end
 -- Config
 	if not fs.exists("/sky.cfg") then
 		centerPrint("SkyScraper configuration")
-		nextLine()
+		term.setCursorPos(1, 2)
 		local cfg = {}
 		write("Y-Level: ")
 		cfg.y = tonumber(read())
