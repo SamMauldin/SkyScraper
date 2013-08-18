@@ -110,7 +110,7 @@ end
 
 -- Helper functions
 	function send(msg)
-		MODEM.tramsmit(PORT, PORT, PREFIX .. textutils.serialize(msg))
+		MODEM.transmit(PORT, PORT, PREFIX .. textutils.serialize(msg))
 	end
 	
 	function recv()
