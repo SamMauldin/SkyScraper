@@ -153,12 +153,12 @@ end
 		table.sort(smenu, function (a,b) return (a.y > b.y) end)
 		
 		local sorted = {}
-		for k,v in pairs(smenu) do
-			table.insert(sorted, 1, v.floor)
+		local len = #smenu
+		for i = 1, len do
+			sorted[i] = smenu[i].name
 		end
-		table.insert(sorted, 1, "Call Elevator")
+		sorted[len+1] = "Call Elevator"
 		FLOORS = sorted
-		return FLOORS, smenu
 	end
 	
 	function addFloor(data)
