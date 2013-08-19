@@ -187,6 +187,7 @@ end
 	
 	local elevators = {}
 	local stat = "CLEAR"
+	
 	function msgHandler()
 		while true do
 			local msg = recv()
@@ -257,7 +258,7 @@ end
 	function main()
 		while true do
 			clear()
-			centerPrint("SkyScraper")
+			centerPrint("SkyScraper - " .. stat)
 			
 			goroutine.spawn("msgHandler", msgHandler)
 			goroutine.spawn("menu", menu)
