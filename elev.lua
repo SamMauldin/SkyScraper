@@ -60,8 +60,8 @@ function nextLine(n)
 end
 
 -- Update
-	local url = "https://raw.github.com/Sxw1212/SkyScraper/master/elev.lua"
-	local res = http.get(url)
+	local url = "https://raw.github.com/Sxw1212/SkyScraper/master/"
+	local res = http.get(url .. "elev.lua")
 	if res then
 		local fh = fs.open("/startup", "w")
 		fh.write(res.readAll())
@@ -73,8 +73,21 @@ end
 		centerPrint("Warning: Updater failed")
 		sleep(1)
 	end
+	local res = http.get(url .. "goroutine.lua")
+	if res then
+		local fh = fs.open("/goroutine", "w")
+		fh.write(res.readAll())
+		fh.close()
+	else
+		clear()
+		centerPrint("SkyScraper")
+		nextLine()
+		centerPrint("Warning: Updater failed")
+		sleep(1)
+	end
 	
 -- System test
+	os.loadAPI("goroutine")
 
 	clear()
 	centerPrint("SkyScraper")
@@ -173,50 +186,44 @@ end
 -- Handlers
 	
 	local elevators = {}
-	local exitstat = "END"
-	local cstat = "CLEAR"
+	local stat = "CLEAR"
 	function msgHandler()
-		local exiting = false
-		while not exiting do
+		while true do
 			local msg = recv()
 			if msg[1] == "CALL" then
-				exitstat = "REFRESH"
-				cstat = "BUSY"
-				exiting = true
-				
+				stat = "BUSY"
 				rs.setBundledOutput("bottom", colors.lime)
 				sleep(0.25)
 				rs.setBundledOutput("bottom", 0)
+				os.queueEvent("refresh")
 			elseif msg[1] == "SENDING" then
-				exitstat = "REFRESH"
-				cstat = "BUSY"
-				exiting = true
+				stat = "BUSY"
 				
 				if msg[2] == cfg.floor then
-					cstat = "COMING"
+					stat = "COMING"
 					rs.setBundledOutput("bottom", colors.purple)
 				end
+				os.queueEvent("refresh")
 			elseif msg[1] == "DISCOVER" then
 				elevators[msg[2].y] = msg[2].floor
 				send({ "HELLO", cfg })
-				exitstat = "REFRESH"
-				exiting = true
+				os.queueEvent("refresh")
 			elseif msg[1] == "HELLO" then
 				elevators[tonumber(msg[2].y)] = msg[2].floor
-				exitstat = "REFRESH"
-				exiting = true
+				os.queueEvent("refresh")
 			elseif msg[1] == "CLEAR" then
-				exitstat = "REFRESH"
-				cstat = "CLEAR"
+				stat = "CLEAR"
+				os.queueEvent("refresh")
 			elseif msg[1] == "RESET" then
-				exitstat = "RESTART"
-				exiting = true
+				elevators = {}
+				stat = "CLEAR"
+				os.queueEvent("refresh")
 			end
 		end
 	end
 	
 	function menu()
-		if cstat == "CLEAR" then
+		if stat == "CLEAR" then
 			local x, y = term.getSize()
 			local floor = newmenu(menuCompat(elevators), 2, 2, y-1)
 			if floor == "Call Elevator" then
@@ -227,7 +234,7 @@ end
 				send({ "SENDING", floor, cfg})
 				cstat = "BUSY"
 			end
-			exitstat = "REFRESH"
+			os.queueEvent("refresh")
 		elseif cstat == "BUSY" then
 			nextLine(7)
 			centerPrint("Elevator busy, please wait")
@@ -235,29 +242,26 @@ end
 		elseif cstat == "COMING" then
 			nextLine(7)
 			centerPrint("Elevator coming, please wait")
-			done = false
-			while not done do
+			while true do
 				os.pullEvent("redstone")
 				if rs.getBundledInput("bottom") == colors.white then
-					done = true
-					cstat = "CLEAR"
-					exitstat = "REFRESH"
+					stat = "CLEAR"
 					send({ "CLEAR", cfg })
-					rs.setBundledInput("bottom", 0)
+					rs.setBundledOutput("bottom", 0)
+					os.queueEvent("refresh")
 				end
 			end
 		end
 	end
 	
-	while true do
-		clear()
-		centerPrint("SkyScraper")
-		parallel.waitForAny(msgHandler, menu)
-		if exitstat == "END" then
-			os.shutdown()
-		elseif exitstat == "REFRESH" then
-			-- Restart
-		elseif exitstat == "RESTART" then
-			os.reboot()
+	function main()
+		while true do
+			goroutine.spawn("msgHandler", msgHandler)
+			goroutine.spawn("menu", menu)
+			os.pullEvent("refresh")
+			goroutine.kill("msgHandler")
+			goroutine.kill("menu")
 		end
 	end
+	
+	goroutine.run(main)
