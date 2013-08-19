@@ -206,16 +206,16 @@ end
 		while true do
 			local msg = recv()
 			if msg[1] == "CALL" then
-				stat = "BUSY"
+				STAT = "BUSY"
 				rs.setBundledOutput("bottom", colors.lime)
 				sleep(0.25)
 				rs.setBundledOutput("bottom", 0)
 				os.queueEvent("refresh")
 			elseif msg[1] == "SENDING" then
-				stat = "BUSY"
+				STAT = "BUSY"
 				
 				if msg[2] == cfg.floor then
-					stat = "COMING"
+					STAT = "COMING"
 					rs.setBundledOutput("bottom", colors.purple)
 				end
 				os.queueEvent("refresh")
@@ -227,40 +227,41 @@ end
 				addFloor(msg[2])
 				os.queueEvent("refresh")
 			elseif msg[1] == "CLEAR" then
-				stat = "CLEAR"
+				STAT = "CLEAR"
 				os.queueEvent("refresh")
 			elseif msg[1] == "RESET" then
-				elevators = {}
-				stat = "CLEAR"
+				ELEVATORS = {}
+				FLOORS = {"Call Elevator"}
+				STAT = "CLEAR"
 				os.queueEvent("refresh")
 			end
 		end
 	end
 	
 	function menu()
-		if stat == "CLEAR" then
+		if STAT == "CLEAR" then
 			local x, y = term.getSize()
 			local floor = newmenu(FLOORS, 2, 2, y-1)
 			if floor == "Call Elevator" then
 				send({ "CALL", cfg })
-				stat = "COMING"
+				STAT = "COMING"
 				rs.setBundledOutput("bottom", colors.purple)
 			else
 				send({ "SENDING", floor, cfg})
-				stat = "BUSY"
+				STAT = "BUSY"
 			end
 			os.queueEvent("refresh")
-		elseif stat == "BUSY" then
+		elseif STAT == "BUSY" then
 			nextLine(7)
 			centerPrint("Elevator busy, please wait")
 			os.pullEvent("AReallyLongEventThatYou'dBetterNotCallOrElse...")
-		elseif stat == "COMING" then
+		elseif STAT == "COMING" then
 			nextLine(7)
 			centerPrint("Elevator coming, please wait")
 			while true do
 				os.pullEvent("redstone")
 				if colors.test(rs.getBundledInput("bottom"), colors.white) then
-					stat = "CLEAR"
+					STAT = "CLEAR"
 					send({ "CLEAR", cfg })
 					rs.setBundledOutput("bottom", 0)
 					os.queueEvent("refresh")
@@ -274,7 +275,7 @@ end
 		goroutine.assignEvent("msgHandler", "modem_message")
 		while true do
 			clear()
-			centerPrint("SkyScraper - " .. stat)
+			centerPrint("SkyScraper - " .. STAT)
 			
 			goroutine.spawn("menu", menu)
 			
