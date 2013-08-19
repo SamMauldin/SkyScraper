@@ -162,13 +162,14 @@ end
 	end
 	
 	function addFloor(data)
-		local add = true
+		local contains = false
 		for k, v in pairs(ELEVATORS) do
 			if v.y == data.y then
-				add = false
+				contains = true
+				ELEVATORS[k].name = data.name
 			end
 		end
-		if add then
+		if not contains then
 			table.insert(ELEVATORS, data)
 		end
 		menuCompat()
