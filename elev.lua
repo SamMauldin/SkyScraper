@@ -150,7 +150,7 @@ end
 	function menuCompat()
 		-- Somebody help me, I have no idea how else to do this
 		local menu = table.copy(ELEVATORS)
-		table.sort(menu, function (a,b) return (a > b) end)
+		table.sort(menu, function (a,b) return (a.y > b.y) end)
 		
 		local sorted = {}
 		for k,v in pairs(menu) do
