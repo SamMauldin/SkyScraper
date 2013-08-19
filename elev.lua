@@ -158,7 +158,7 @@ end
 		end
 		table.insert(sorted, 1, "Call Elevator")
 		FLOORS = sorted
-		return FLOORS
+		return FLOORS, menu
 	end
 	
 	function addFloor(data)
