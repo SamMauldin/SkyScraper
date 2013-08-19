@@ -243,6 +243,7 @@ end
 					cstat = "CLEAR"
 					exitstat = "REFRESH"
 					send({ "CLEAR", cfg })
+					rs.setBundledInput("bottom", 0)
 				end
 			end
 		end
