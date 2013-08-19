@@ -202,7 +202,7 @@ end
 				exitstat = "REFRESH"
 				exiting = true
 			elseif msg[1] == "HELLO" then
-				elevators[msg[2].y] = msg[2].floor
+				elevators[tonumber(msg[2].y)] = msg[2].floor
 				exitstat = "REFRESH"
 				exiting = true
 			elseif msg[1] == "CLEAR" then
