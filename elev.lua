@@ -125,6 +125,14 @@ end
 	MODEM.open(PORT)
 
 -- Helper functions
+	
+	function table.copy(t)
+		local t2 = {}
+		for k,v in pairs(t) do
+			t2[k] = v
+		end
+		return t2
+	end
 	function send(msg)
 		MODEM.transmit(PORT, PORT, PREFIX .. textutils.serialize(msg))
 	end
@@ -139,23 +147,22 @@ end
 		end
 	end
 	
-	function menuCompat(list)
+	function menuCompat()
 		-- Somebody help me, I have no idea how else to do this
-		local menu = { "Call Elevator" }
-		local ci = 1
-		for i = 0, 10000 do
-			for k, v in pairs(list) do
-				if tonumber(v.y) == i then
-					table.insert(menu, v.floor)
-				end
-			end
+		local menu = table.copy(ELEVATORS)
+		table.sort(menu, function (a,b) return (a > b) end)
+		
+		local sorted = {}
+		for k,v in pairs(menu) do
+			table.insert(sorted, v.floor)
 		end
-		return menu
+		table.insert(sorted, "Call Elevator")
+		FLOORS = sorted
 	end
 	
 	function addFloor(data)
 		table.insert(ELEVATORS, data)
-		FLOORS = menuCompat(ELEVATORS)
+		menuCompat()
 	end
 
 -- Config
