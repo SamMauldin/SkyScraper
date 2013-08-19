@@ -244,7 +244,7 @@ end
 			centerPrint("Elevator coming, please wait")
 			while true do
 				os.pullEvent("redstone")
-				if rs.getBundledInput("bottom") == colors.white then
+				if colors.test(rs.getBundledInput("bottom"), colors.white) then
 					stat = "CLEAR"
 					send({ "CLEAR", cfg })
 					rs.setBundledOutput("bottom", 0)
@@ -256,6 +256,9 @@ end
 	
 	function main()
 		while true do
+			clear()
+			centerPrint("SkyScraper")
+			
 			goroutine.spawn("msgHandler", msgHandler)
 			goroutine.spawn("menu", menu)
 			
