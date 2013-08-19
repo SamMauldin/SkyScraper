@@ -116,12 +116,12 @@ end
 	clear()
 
 -- Vars
-	local PORT = 50101
-	local PREFIX = "SKYSCRAPER:"
-	local MODEM = peripheral.wrap("back")
-	local ELEVATORS = {}
-	local FLOORS = {"Call Elevator"}
-	local STAT = "CLEAR"
+	PORT = 50101
+	PREFIX = "SKYSCRAPER:"
+	MODEM = peripheral.wrap("back")
+	ELEVATORS = {}
+	FLOORS = {"Call Elevator"}
+	STAT = "CLEAR"
 	MODEM.open(PORT)
 
 -- Helper functions
