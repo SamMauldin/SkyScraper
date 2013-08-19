@@ -117,7 +117,7 @@ end
 		while true do
 			local _, _, _, _, msg = os.pullEvent("modem_message")
 			if msg:sub(1, #PREFIX) == PREFIX then
-				local trans = msg:sub(#PREFIX)
+				local trans = msg:sub((#PREFIX)+1)
 				return textutils.unserialize(trans)
 			end
 		end
