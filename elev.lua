@@ -184,7 +184,7 @@ end
 				cstat = "BUSY"
 				exiting = true
 				
-				rs.setBundledOutput("bottom", colors.white)
+				rs.setBundledOutput("bottom", colors.lime)
 				sleep(0.25)
 				rs.setBundledOutput("bottom", 0)
 			elseif msg[1] == "SENDING" then
@@ -194,7 +194,7 @@ end
 				
 				if msg[2] == cfg.floor then
 					cstat = "COMING"
-					rs.setBundledOutput("bottom", colors.orange)
+					rs.setBundledOutput("bottom", colors.purple)
 				end
 			elseif msg[1] == "DISCOVER" then
 				elevators[msg[2].y] = msg[2].floor
@@ -222,7 +222,7 @@ end
 			if floor == "Call Elevator" then
 				send({ "CALL", cfg })
 				cstat = "COMING"
-				rs.setBundledOutput("bottom", colors.orange)
+				rs.setBundledOutput("bottom", colors.purple)
 			else
 				send({ "SENDING", floor, cfg})
 				cstat = "BUSY"
@@ -238,7 +238,7 @@ end
 			done = false
 			while not done do
 				os.pullEvent("redstone")
-				if rs.getBundledInput("bottom") == colors.magenta then
+				if rs.getBundledInput("bottom") == colors.white then
 					done = true
 					cstat = "CLEAR"
 					exitstat = "REFRESH"
