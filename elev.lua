@@ -256,20 +256,19 @@ end
 	end
 	
 	function main()
+		goroutine.spawn("msgHandler", msgHandler)
+		goroutine.assignEvent("msgHandler", "modem_message")
 		while true do
 			clear()
 			centerPrint("SkyScraper - " .. stat)
 			
-			goroutine.spawn("msgHandler", msgHandler)
 			goroutine.spawn("menu", menu)
 			
 			goroutine.assignEvent("menu", "key")
 			goroutine.assignEvent("menu", "redstone")
-			goroutine.assignEvent("msgHandler", "modem_message")
 			
 			os.pullEvent("refresh")
 			
-			goroutine.kill("msgHandler")
 			goroutine.kill("menu")
 		end
 	end
