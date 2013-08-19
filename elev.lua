@@ -144,7 +144,7 @@ end
 		sleep(0.25)
 		
 		local fh = fs.open("/sky.cfg", "w")
-		fh.write(textutils.serialize({ ["y"] = y, ["name"] = name }))
+		fh.write(textutils.serialize(cfg))
 		fh.close()
 		
 		nextLine()
