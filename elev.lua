@@ -228,18 +228,18 @@ end
 			local floor = newmenu(menuCompat(elevators), 2, 2, y-1)
 			if floor == "Call Elevator" then
 				send({ "CALL", cfg })
-				cstat = "COMING"
+				stat = "COMING"
 				rs.setBundledOutput("bottom", colors.purple)
 			else
 				send({ "SENDING", floor, cfg})
-				cstat = "BUSY"
+				stat = "BUSY"
 			end
 			os.queueEvent("refresh")
-		elseif cstat == "BUSY" then
+		elseif stat == "BUSY" then
 			nextLine(7)
 			centerPrint("Elevator busy, please wait")
 			os.pullEvent("AReallyLongEventThatYou'dBetterNotCallOrElse...")
-		elseif cstat == "COMING" then
+		elseif stat == "COMING" then
 			nextLine(7)
 			centerPrint("Elevator coming, please wait")
 			while true do
@@ -258,10 +258,13 @@ end
 		while true do
 			goroutine.spawn("msgHandler", msgHandler)
 			goroutine.spawn("menu", menu)
+			
 			goroutine.assignEvent("menu", "key")
 			goroutine.assignEvent("menu", "redstone")
 			goroutine.assignEvent("msgHandler", "modem_message")
+			
 			os.pullEvent("refresh")
+			
 			goroutine.kill("msgHandler")
 			goroutine.kill("menu")
 		end
