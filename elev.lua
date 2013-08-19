@@ -144,7 +144,7 @@ end
 		sleep(0.25)
 		
 		local fh = fs.open("/sky.cfg", "w")
-		fh.write(textutils.serialize({ y = y }))
+		fh.write(textutils.serialize({ ["y"] = y, ["name" }))
 		fh.close()
 		
 		nextLine()
@@ -155,6 +155,9 @@ end
 	local fh = fs.open("/sky.cfg", "r")
 	cfg = textutils.unserialize(fh.readAll())
 	fh.close()
+	if not cfg.y and cfg.name then
+		fs.delete("/sky.cfg")
+	end
 
 -- Announce
 	send({ "DISCOVER", cfg })
