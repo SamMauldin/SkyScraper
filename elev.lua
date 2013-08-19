@@ -145,8 +145,7 @@ end
 		local ci = 1
 		for i = 0, 10000 do
 			for k, v in pairs(list) do
-				if v.y == i then
-					ci = ci + 1
+				if tonumber(v.y) == i then
 					table.insert(menu, v.floor)
 				end
 			end
