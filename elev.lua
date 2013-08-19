@@ -154,7 +154,7 @@ end
 		
 		local sorted = {}
 		for k,v in pairs(menu) do
-			table.insert(sorted, v.floor)
+			table.insert(sorted, 1, v.floor)
 		end
 		table.insert(sorted, 1, "Call Elevator")
 		FLOORS = sorted
