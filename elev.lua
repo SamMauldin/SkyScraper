@@ -162,7 +162,15 @@ end
 	end
 	
 	function addFloor(data)
-		table.insert(ELEVATORS, data)
+		local add = true
+		for k, v in pairs(ELEVATORS) do
+			if v.y == data.y then
+				add = false
+			end
+		end
+		if add then
+			table.insert(ELEVATORS, data)
+		end
 		menuCompat()
 	end
 
