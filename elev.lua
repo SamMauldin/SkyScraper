@@ -142,14 +142,12 @@ end
 	function menuCompat(list)
 		-- Somebody help me, I have no idea how else to do this
 		local menu = { "Call Elevator" }
-		local min = 0
-		local max = 1000
 		local ci = 1
-		for i = min, max do
+		for i = 0, 10000 do
 			for k, v in pairs(list) do
 				if v.y == i then
 					ci = ci + 1
-					menu[ci] = v.floor
+					table.insert(menu, v.floor)
 				end
 			end
 		end
