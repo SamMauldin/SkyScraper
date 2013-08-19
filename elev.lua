@@ -157,6 +157,7 @@ end
 	fh.close()
 	if not cfg.y and cfg.name then
 		fs.delete("/sky.cfg")
+		os.reboot()
 	end
 
 -- Announce
