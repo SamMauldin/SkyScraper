@@ -119,6 +119,9 @@ end
 	local PORT = 50101
 	local PREFIX = "SKYSCRAPER:"
 	local MODEM = peripheral.wrap("back")
+	local ELEVATORS = {}
+	local FLOORS = {}
+	local STAT = "CLEAR"
 	MODEM.open(PORT)
 
 -- Helper functions
@@ -137,11 +140,25 @@ end
 	end
 	
 	function menuCompat(list)
+		-- Somebody help me, I have no idea how else to do this
 		local menu = { "Call Elevator" }
-		for k, v in pairs(list) do
-			table.insert(menu, v)
+		local min = 0
+		local max = 1000
+		local ci = 1
+		for i = min, max do
+			for k, v in pairs(list) do
+				if v.y == i then
+					ci = ci + 1
+					menu[ci] = v.floor
+				end
+			end
 		end
 		return menu
+	end
+	
+	function addFloor(data)
+		table.insert(ELEVATORS, data)
+		FLOORS = menuCompat(ELEVATORS)
 	end
 
 -- Config
@@ -185,9 +202,6 @@ end
 
 -- Handlers
 	
-	local elevators = {}
-	local stat = "CLEAR"
-	
 	function msgHandler()
 		while true do
 			local msg = recv()
@@ -206,11 +220,11 @@ end
 				end
 				os.queueEvent("refresh")
 			elseif msg[1] == "DISCOVER" then
-				elevators[msg[2].y] = msg[2].floor
+				addFloor(msg[2])
 				send({ "HELLO", cfg })
 				os.queueEvent("refresh")
 			elseif msg[1] == "HELLO" then
-				elevators[tonumber(msg[2].y)] = msg[2].floor
+				addFloor(msg[2])
 				os.queueEvent("refresh")
 			elseif msg[1] == "CLEAR" then
 				stat = "CLEAR"
@@ -226,7 +240,7 @@ end
 	function menu()
 		if stat == "CLEAR" then
 			local x, y = term.getSize()
-			local floor = newmenu(menuCompat(elevators), 2, 2, y-1)
+			local floor = newmenu(FLOORS, 2, 2, y-1)
 			if floor == "Call Elevator" then
 				send({ "CALL", cfg })
 				stat = "COMING"
