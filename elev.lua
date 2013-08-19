@@ -258,6 +258,9 @@ end
 		while true do
 			goroutine.spawn("msgHandler", msgHandler)
 			goroutine.spawn("menu", menu)
+			goroutine.assignEvent("menu", "key")
+			goroutine.assignEvent("menu", "redstone")
+			goroutine.assignEvent("msgHandler", "modem_message")
 			os.pullEvent("refresh")
 			goroutine.kill("msgHandler")
 			goroutine.kill("menu")
