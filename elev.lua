@@ -161,6 +161,7 @@ end
 		centerPrint("Loaded from file!")
 		sleep(0.25)
 		clear()
+		cfg.y = tonumber(cfg.y)
 	else
 		fs.delete("/sky.cfg")
 		os.reboot()
