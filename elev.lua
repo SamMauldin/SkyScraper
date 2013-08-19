@@ -155,7 +155,13 @@ end
 	local fh = fs.open("/sky.cfg", "r")
 	cfg = textutils.unserialize(fh.readAll())
 	fh.close()
-	if not cfg.y and cfg.name then
+	if cfg.y and cfg.name then
+		centerPrint("SkyScraper configuration")
+		nextLine()
+		centerPrint("Loaded from file!")
+		sleep(0.25)
+		clear()
+	else
 		fs.delete("/sky.cfg")
 		os.reboot()
 	end
