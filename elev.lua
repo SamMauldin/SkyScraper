@@ -149,16 +149,16 @@ end
 	
 	function menuCompat()
 		-- Somebody help me, I have no idea how else to do this
-		local menu = table.copy(ELEVATORS)
+		local smenu = table.copy(ELEVATORS)
 		table.sort(menu, function (a,b) return (a.y > b.y) end)
 		
 		local sorted = {}
-		for k,v in pairs(menu) do
+		for k,v in pairs(smenu) do
 			table.insert(sorted, 1, v.floor)
 		end
 		table.insert(sorted, 1, "Call Elevator")
 		FLOORS = sorted
-		return FLOORS, menu
+		return FLOORS, smenu
 	end
 	
 	function addFloor(data)
