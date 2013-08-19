@@ -156,8 +156,9 @@ end
 		for k,v in pairs(menu) do
 			table.insert(sorted, v.floor)
 		end
-		table.insert(sorted, "Call Elevator")
+		table.insert(sorted, 1, "Call Elevator")
 		FLOORS = sorted
+		return FLOORS
 	end
 	
 	function addFloor(data)
