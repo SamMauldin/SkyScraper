@@ -244,10 +244,7 @@ end
 				STAT = "CLEAR"
 				os.queueEvent("refresh")
 			elseif msg[1] == "RESET" then
-				ELEVATORS = {}
-				FLOORS = {"Call Elevator"}
-				STAT = "CLEAR"
-				os.queueEvent("refresh")
+				os.reboot()
 			end
 		end
 	end
