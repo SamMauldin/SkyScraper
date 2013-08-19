@@ -120,7 +120,7 @@ end
 	local PREFIX = "SKYSCRAPER:"
 	local MODEM = peripheral.wrap("back")
 	local ELEVATORS = {}
-	local FLOORS = {}
+	local FLOORS = {"Call Elevator"}
 	local STAT = "CLEAR"
 	MODEM.open(PORT)
 
