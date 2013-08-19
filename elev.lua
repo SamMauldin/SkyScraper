@@ -153,7 +153,7 @@ end
 		clear()
 	end
 	local fh = fs.open("/sky.cfg", "r")
-	local cfg = textutils.unserialize(fh.readAll())
+	cfg = textutils.unserialize(fh.readAll())
 	fh.close()
 
 -- Announce
@@ -211,6 +211,7 @@ end
 			if floor == "Call Elevator" then
 				send({ "CALL", cfg })
 				cstat = "COMING"
+				rs.setBundledOutput("bottom", colors.orange)
 			else
 				send({ "SENDING", floor, cfg})
 				cstat = "BUSY"
@@ -243,7 +244,7 @@ end
 		if exitstat == "END" then
 			os.shutdown()
 		elseif exitstat == "REFRESH" then
-			-- Continute
+			-- Restart
 		elseif exitstat == "RESTART" then
 			os.reboot()
 		end
