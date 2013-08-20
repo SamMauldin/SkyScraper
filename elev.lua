@@ -303,8 +303,8 @@ end
 			goroutine.assignEvent("menu", "redstone")
 			
 			os.pullEvent("refresh")
-			sleep(0.1)
 			REFRESHQUEUE = true
+			--sleep(0.1)
 			
 			goroutine.kill("menu")
 		end
