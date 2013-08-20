@@ -222,7 +222,10 @@ end
 		while true do
 			local msg = recv()
 			if msg[1] == "CALL" then
-				if STAT ~= "COMING" then
+				if STAT == "COMING" then
+					clear()
+					centerPrint("COMMIGGGGGG TESTTTT! XD")
+				else
 					STAT = "BUSY"
 					rs.setBundledOutput("bottom", colors.lime)
 					sleep(1)
@@ -304,7 +307,7 @@ end
 			
 			os.pullEvent("refresh")
 			REFRESHQUEUE = true
-			--sleep(0.1)
+			sleep(0.1)
 			
 			goroutine.kill("menu")
 		end
