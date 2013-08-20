@@ -122,6 +122,7 @@ end
 	ELEVATORS = {}
 	FLOORS = {"Call Elevator"}
 	STAT = "CLEAR"
+	REFRESH = true
 	MODEM.open(PORT)
 
 -- Helper functions
@@ -224,7 +225,7 @@ end
 				rs.setBundledOutput("bottom", colors.lime)
 				sleep(1)
 				rs.setBundledOutput("bottom", 0)
-				os.queueEvent("refresh")
+				REFRESH = true
 			elseif msg[1] == "SENDING" then
 				STAT = "BUSY"
 				
@@ -232,17 +233,17 @@ end
 					STAT = "COMING"
 					rs.setBundledOutput("bottom", colors.purple)
 				end
-				os.queueEvent("refresh")
+				REFRESH = true
 			elseif msg[1] == "DISCOVER" then
 				addFloor(msg[2])
 				send({ "HELLO", cfg })
-				os.queueEvent("refresh")
+				REFRESH = true
 			elseif msg[1] == "HELLO" then
 				addFloor(msg[2])
-				os.queueEvent("refresh")
+				REFRESH = true
 			elseif msg[1] == "CLEAR" then
 				STAT = "CLEAR"
-				os.queueEvent("refresh")
+				REFRESH = true
 			elseif msg[1] == "RESET" then
 				os.reboot()
 			end
@@ -260,8 +261,9 @@ end
 			else
 				send({ "SENDING", floor, cfg})
 				STAT = "BUSY"
+				rs.setBundledOutput("bottom", colors.lime)
 			end
-			os.queueEvent("refresh")
+			REFRESH = true
 		elseif STAT == "BUSY" then
 			nextLine(7)
 			centerPrint("Elevator busy, please wait")
@@ -275,7 +277,7 @@ end
 					STAT = "CLEAR"
 					send({ "CLEAR", cfg })
 					rs.setBundledOutput("bottom", 0)
-					os.queueEvent("refresh")
+					REFRESH = true
 				end
 			end
 		end
@@ -285,17 +287,18 @@ end
 		goroutine.spawn("msgHandler", msgHandler)
 		goroutine.assignEvent("msgHandler", "modem_message")
 		while true do
-			clear()
-			centerPrint("SkyScraper - " .. STAT)
-			
-			goroutine.spawn("menu", menu)
-			
-			goroutine.assignEvent("menu", "key")
-			goroutine.assignEvent("menu", "redstone")
-			
-			os.pullEvent("refresh")
-			
-			goroutine.kill("menu")
+			if REFRESH then
+				goroutine.kill("menu")
+				
+				clear()
+				centerPrint("SkyScraper - " .. STAT)
+				
+				goroutine.spawn("menu", menu)
+				
+				goroutine.assignEvent("menu", "key")
+				goroutine.assignEvent("menu", "redstone")
+			end
+			sleep(10)
 		end
 	end
 	
