@@ -293,6 +293,8 @@ end
 				clear()
 				centerPrint("SkyScraper - " .. STAT)
 				
+				sleep(0.5)
+				
 				goroutine.spawn("menu", menu)
 				
 				goroutine.assignEvent("menu", "key")
