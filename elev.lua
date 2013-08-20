@@ -81,14 +81,14 @@ end
 	FLOORS = {"Call Elevator"}
 	STAT = "CLEAR"
 	SELECTED = 1
-	REFRESHING = false
+	REFRESHQUEUE = true
 	MODEM.open(PORT)
 
 -- Helper functions
 	
 	function refresh()
-		if not REFRESHING then
-			REFRESHING = true
+		if REFRESHQUEUE then
+			REFRESHQUEUE = false
 			os.queueEvent("refresh")
 		end
 	end
@@ -304,7 +304,7 @@ end
 			
 			os.pullEvent("refresh")
 			sleep(0.1)
-			REFRESHING = false
+			REFRESHQUEUE = true
 			
 			goroutine.kill("menu")
 		end
