@@ -222,7 +222,7 @@ end
 			if msg[1] == "CALL" then
 				STAT = "BUSY"
 				rs.setBundledOutput("bottom", colors.lime)
-				sleep(0.25)
+				sleep(1)
 				rs.setBundledOutput("bottom", 0)
 				os.queueEvent("refresh")
 			elseif msg[1] == "SENDING" then
