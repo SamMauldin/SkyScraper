@@ -229,7 +229,7 @@ end
 			elseif msg[1] == "SENDING" then
 				STAT = "BUSY"
 				
-				if msg[2] == cfg.floor then
+				if tostring(msg[2]) == tostring(cfg.floor) then
 					STAT = "COMING"
 					rs.setBundledOutput("bottom", colors.purple)
 				end
