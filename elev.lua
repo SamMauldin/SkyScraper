@@ -229,7 +229,7 @@ end
 			elseif msg[1] == "SENDING" then
 				STAT = "BUSY"
 				
-				if tostring(msg[2]) == tostring(cfg.floor) then
+				if tostring(msg[2]) == tostring(cfg.y) then
 					STAT = "COMING"
 					rs.setBundledOutput("bottom", colors.purple)
 				end
@@ -259,7 +259,11 @@ end
 				STAT = "COMING"
 				rs.setBundledOutput("bottom", colors.purple)
 			else
-				send({ "SENDING", floor, cfg})
+				for k, v in pairs(ELEVATORS) do
+					if v.name == floor then
+						send({ "SENDING", v.y, cfg})
+					end
+				end
 				STAT = "BUSY"
 				rs.setBundledOutput("bottom", colors.lime)
 			end
