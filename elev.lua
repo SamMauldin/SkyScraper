@@ -158,12 +158,13 @@ end
 					SELECTED = SELECTED - 1
 				end
 			elseif k == keys.down then
-				if FLOORS[SELECTED+1] then
+				if FLOORS[SELECTED + 1] then
 					SELECTED = SELECTED + 1
 				end
 			elseif k == keys.enter then
+				local sel = FLOORS[SELECTED]
 				SELECTED = 1
-				return FLOORS[SELECTED]
+				return sec
 			end
 			render()
 		end
