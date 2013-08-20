@@ -214,11 +214,13 @@ end
 		while true do
 			local msg = recv()
 			if msg[1] == "CALL" then
-				STAT = "BUSY"
-				rs.setBundledOutput("bottom", colors.lime)
-				sleep(1)
-				rs.setBundledOutput("bottom", 0)
-				os.queueEvent("refresh")
+				if STAT ~= "COMING" then
+					STAT = "BUSY"
+					rs.setBundledOutput("bottom", colors.lime)
+					sleep(1)
+					rs.setBundledOutput("bottom", 0)
+					os.queueEvent("refresh")
+				end
 			elseif msg[1] == "SENDING" then
 				STAT = "BUSY"
 				
@@ -263,10 +265,12 @@ end
 			end
 			os.queueEvent("refresh")
 		elseif STAT == "BUSY" then
+			clear()
 			nextLine(7)
 			centerPrint("Elevator busy, please wait")
 			os.pullEvent("AReallyLongEventThatYou'dBetterNotCallOrElse...")
 		elseif STAT == "COMING" then
+			clear()
 			nextLine(7)
 			centerPrint("Elevator coming, please wait")
 			while true do
