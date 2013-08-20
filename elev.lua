@@ -80,7 +80,6 @@ end
 	ELEVATORS = {}
 	FLOORS = {"Call Elevator"}
 	STAT = "CLEAR"
-	os.queueEvent("refresh")
 	SELECTED = 1
 	MODEM.open(PORT)
 
@@ -292,6 +291,7 @@ end
 			goroutine.assignEvent("menu", "redstone")
 			
 			os.pullEvent("refresh")
+			sleep(0.1)
 			
 			goroutine.kill("menu")
 		end
