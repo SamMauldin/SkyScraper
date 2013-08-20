@@ -81,9 +81,17 @@ end
 	FLOORS = {"Call Elevator"}
 	STAT = "CLEAR"
 	SELECTED = 1
+	REFRESHING = false
 	MODEM.open(PORT)
 
 -- Helper functions
+	
+	function refresh()
+		if not REFRESHING then
+			REFRESHING = true
+			os.queueEvent("refresh")
+		end
+	end
 	
 	function table.copy(t)
 		local t2 = {}
@@ -219,7 +227,7 @@ end
 					rs.setBundledOutput("bottom", colors.lime)
 					sleep(1)
 					rs.setBundledOutput("bottom", 0)
-					os.queueEvent("refresh")
+					refresh()
 				end
 			elseif msg[1] == "SENDING" then
 				STAT = "BUSY"
@@ -228,17 +236,17 @@ end
 					STAT = "COMING"
 					rs.setBundledOutput("bottom", colors.purple)
 				end
-				os.queueEvent("refresh")
+				refresh()
 			elseif msg[1] == "DISCOVER" then
 				addFloor(msg[2])
 				send({ "HELLO", cfg })
-				os.queueEvent("refresh")
+				refresh()
 			elseif msg[1] == "HELLO" then
 				addFloor(msg[2])
-				os.queueEvent("refresh")
+				refresh()
 			elseif msg[1] == "CLEAR" then
 				STAT = "CLEAR"
-				os.queueEvent("refresh")
+				refresh()
 				rs.setBundledOutput("bottom", 0)
 			elseif msg[1] == "RESET" then
 				os.reboot()
@@ -263,7 +271,7 @@ end
 				STAT = "BUSY"
 				rs.setBundledOutput("bottom", colors.lime)
 			end
-			os.queueEvent("refresh")
+			refresh()
 		elseif STAT == "BUSY" then
 			clear()
 			nextLine(7)
@@ -279,7 +287,7 @@ end
 					STAT = "CLEAR"
 					send({ "CLEAR", cfg })
 					rs.setBundledOutput("bottom", 0)
-					os.queueEvent("refresh")
+					refresh()
 				end
 			end
 		end
@@ -296,6 +304,7 @@ end
 			
 			os.pullEvent("refresh")
 			sleep(0.1)
+			REFRESHING = false
 			
 			goroutine.kill("menu")
 		end
