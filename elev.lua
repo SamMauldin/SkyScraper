@@ -298,16 +298,17 @@ end
 		goroutine.spawn("msgHandler", msgHandler)
 		goroutine.assignEvent("msgHandler", "modem_message")
 		while true do
+			REFRESHQUEUE = true
 			goroutine.spawn("menu", menu)
 			
 			goroutine.assignEvent("menu", "key")
 			goroutine.assignEvent("menu", "redstone")
 			
 			os.pullEvent("refresh")
-			sleep(0.1)
-			REFRESHQUEUE = true
 			
+			sleep(0.1)
 			goroutine.kill("menu")
+			sleep(0.1)
 		end
 	end
 	
