@@ -1,45 +1,3 @@
-local function newmenu(tList,x,y,height)
-        local function maxlen(t)
-                local len=0
-                for i=1,#t do
-                        local curlen=string.len(type(t[i])=='table' and t[i][1] or t[i])
-                        if curlen>len then len=curlen end
-                end
-                return len
-        end
-       
-        local max=maxlen(tList)
-        x=x or 1
-        y=y or 1
-        y=y-1
-        height=height or #tList
-        height=height+1
-        local selected=1
-        local scrolled=0
-        local function render()
-                for num,item in ipairs(tList) do
-                        if num>scrolled and num<scrolled+height then
-                                term.setCursorPos(x,y+num-scrolled)
-                                local current=(type(item)=='table' and item[1] or item)
-                                write((num==selected and '[' or ' ')..current..(num==selected and ']' or ' ')..(max-#current>0 and string.rep(' ',max-#current) or ''))
-                        end
-                end
-        end
-        while true do
-                render()
-                local evts={os.pullEvent('key')}
-                if evts[1]=="key" and evts[2]==200 and selected>1 then
-                        if selected-1<=scrolled then scrolled=scrolled-1 end
-                        selected=selected-1
-                elseif evts[1]=="key" and evts[2]==208 and selected<#tList then
-                        selected=selected+1
-                        if selected>=height+scrolled then scrolled=scrolled+1 end
-                elseif evts[1]=="key" and evts[2]==28 or evts[2]==156 then
-                        return (type(tList[selected])=='table' and tList[selected][2](tList[selected][1]) or tList[selected])
-                end
-        end
-end
-
 function centerPrint(sText)
 	local w, h = term.getSize()
 	local x, y = term.getCursorPos()
@@ -123,6 +81,7 @@ end
 	FLOORS = {"Call Elevator"}
 	STAT = "CLEAR"
 	REFRESH = true
+	SELECTED = 1
 	MODEM.open(PORT)
 
 -- Helper functions
@@ -174,6 +133,40 @@ end
 			table.insert(ELEVATORS, data)
 		end
 		menuCompat()
+	end
+	
+	function runmenu()
+		local function render()
+			clear()
+			term.setCursorPos(1, 1)
+			centerPrint("SkyScraper")
+			nextLine()
+			for k, v in pairs(FLOORS) do
+				local val = v
+				if SELECTED == k then
+					val = "[" .. val .. "]"
+				end
+				centerPrint(val)
+				nextLine()
+			end
+		end
+		render()
+		while true do
+			local e, k = os.pullEvent("key")
+			if k == keys.up then
+				if SELECTED ~= 1 then
+					SELECTED = SELECTED - 1
+				end
+			elseif k == keys.down then
+				if FLOORS[SELECTED+1] then
+					SELECTED = SELECTED - !
+				end
+			elseif k == keys.enter then
+				SELECTED = 1
+				return FLOORS[SELECTED]
+			end
+			render()
+		end
 	end
 
 -- Config
@@ -254,7 +247,7 @@ end
 	function menu()
 		if STAT == "CLEAR" then
 			local x, y = term.getSize()
-			local floor = newmenu(FLOORS, 2, 2, y-1)
+			local floor = runmenu()
 			if floor == "Call Elevator" then
 				send({ "CALL", cfg })
 				STAT = "COMING"
@@ -294,18 +287,16 @@ end
 		while true do
 			if REFRESH then
 				goroutine.kill("menu")
-				
 				clear()
-				centerPrint("SkyScraper - " .. STAT)
 				
-				sleep(0.5)
+				--sleep(0.5)
 				
 				goroutine.spawn("menu", menu)
 				
 				goroutine.assignEvent("menu", "key")
 				goroutine.assignEvent("menu", "redstone")
 			end
-			sleep(10)
+			sleep(1)
 		end
 	end
 	
