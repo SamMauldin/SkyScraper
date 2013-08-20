@@ -223,10 +223,6 @@ end
 			local msg = recv()
 			if msg[1] == "CALL" then
 				if STAT == "COMING" then
-					clear()
-					centerPrint("COMMIGGGGGG TESTTTT! XD")
-					STAT = "NOPE"
-					sleep(5)
 				else
 					STAT = "BUSY"
 					rs.setBundledOutput("bottom", colors.lime)
@@ -308,8 +304,8 @@ end
 			goroutine.assignEvent("menu", "redstone")
 			
 			os.pullEvent("refresh")
-			REFRESHQUEUE = true
 			sleep(0.1)
+			REFRESHQUEUE = true
 			
 			goroutine.kill("menu")
 		end
