@@ -159,7 +159,7 @@ end
 				end
 			elseif k == keys.down then
 				if FLOORS[SELECTED+1] then
-					SELECTED = SELECTED - 1
+					SELECTED = SELECTED + 1
 				end
 			elseif k == keys.enter then
 				SELECTED = 1
