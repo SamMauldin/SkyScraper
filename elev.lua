@@ -244,6 +244,7 @@ end
 			elseif msg[1] == "CLEAR" then
 				STAT = "CLEAR"
 				REFRESH = true
+				rs.setBundledOutput("bottom", 0)
 			elseif msg[1] == "RESET" then
 				os.reboot()
 			end
