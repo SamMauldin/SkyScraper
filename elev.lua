@@ -80,7 +80,7 @@ end
 	ELEVATORS = {}
 	FLOORS = {"Call Elevator"}
 	STAT = "CLEAR"
-	REFRESH = true
+	os.pullEvent("refresh")
 	SELECTED = 1
 	MODEM.open(PORT)
 
@@ -159,7 +159,7 @@ end
 				end
 			elseif k == keys.down then
 				if FLOORS[SELECTED+1] then
-					SELECTED = SELECTED - !
+					SELECTED = SELECTED - 1
 				end
 			elseif k == keys.enter then
 				SELECTED = 1
@@ -218,7 +218,7 @@ end
 				rs.setBundledOutput("bottom", colors.lime)
 				sleep(1)
 				rs.setBundledOutput("bottom", 0)
-				REFRESH = true
+				os.pullEvent("refresh")
 			elseif msg[1] == "SENDING" then
 				STAT = "BUSY"
 				
@@ -226,17 +226,17 @@ end
 					STAT = "COMING"
 					rs.setBundledOutput("bottom", colors.purple)
 				end
-				REFRESH = true
+				os.pullEvent("refresh")
 			elseif msg[1] == "DISCOVER" then
 				addFloor(msg[2])
 				send({ "HELLO", cfg })
-				REFRESH = true
+				os.pullEvent("refresh")
 			elseif msg[1] == "HELLO" then
 				addFloor(msg[2])
-				REFRESH = true
+				os.pullEvent("refresh")
 			elseif msg[1] == "CLEAR" then
 				STAT = "CLEAR"
-				REFRESH = true
+				os.pullEvent("refresh")
 				rs.setBundledOutput("bottom", 0)
 			elseif msg[1] == "RESET" then
 				os.reboot()
@@ -261,7 +261,7 @@ end
 				STAT = "BUSY"
 				rs.setBundledOutput("bottom", colors.lime)
 			end
-			REFRESH = true
+			os.pullEvent("refresh")
 		elseif STAT == "BUSY" then
 			nextLine(7)
 			centerPrint("Elevator busy, please wait")
@@ -275,7 +275,7 @@ end
 					STAT = "CLEAR"
 					send({ "CLEAR", cfg })
 					rs.setBundledOutput("bottom", 0)
-					REFRESH = true
+					os.pullEvent("refresh")
 				end
 			end
 		end
@@ -285,18 +285,14 @@ end
 		goroutine.spawn("msgHandler", msgHandler)
 		goroutine.assignEvent("msgHandler", "modem_message")
 		while true do
-			if REFRESH then
-				goroutine.kill("menu")
-				clear()
-				
-				--sleep(0.5)
-				
-				goroutine.spawn("menu", menu)
-				
-				goroutine.assignEvent("menu", "key")
-				goroutine.assignEvent("menu", "redstone")
-			end
-			sleep(1)
+			goroutine.spawn("menu", menu)
+			
+			goroutine.assignEvent("menu", "key")
+			goroutine.assignEvent("menu", "redstone")
+			
+			os.pullEvent("refresh")
+			
+			goroutine.kill("menu")
 		end
 	end
 	
