@@ -225,6 +225,8 @@ end
 				if STAT == "COMING" then
 					clear()
 					centerPrint("COMMIGGGGGG TESTTTT! XD")
+					STAT = "NOPE"
+					sleep(5)
 				else
 					STAT = "BUSY"
 					rs.setBundledOutput("bottom", colors.lime)
