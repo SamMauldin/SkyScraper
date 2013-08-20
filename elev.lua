@@ -80,7 +80,7 @@ end
 	ELEVATORS = {}
 	FLOORS = {"Call Elevator"}
 	STAT = "CLEAR"
-	os.pullEvent("refresh")
+	os.queueEvent("refresh")
 	SELECTED = 1
 	MODEM.open(PORT)
 
@@ -218,7 +218,7 @@ end
 				rs.setBundledOutput("bottom", colors.lime)
 				sleep(1)
 				rs.setBundledOutput("bottom", 0)
-				os.pullEvent("refresh")
+				os.queueEvent("refresh")
 			elseif msg[1] == "SENDING" then
 				STAT = "BUSY"
 				
@@ -226,17 +226,17 @@ end
 					STAT = "COMING"
 					rs.setBundledOutput("bottom", colors.purple)
 				end
-				os.pullEvent("refresh")
+				os.queueEvent("refresh")
 			elseif msg[1] == "DISCOVER" then
 				addFloor(msg[2])
 				send({ "HELLO", cfg })
-				os.pullEvent("refresh")
+				os.queueEvent("refresh")
 			elseif msg[1] == "HELLO" then
 				addFloor(msg[2])
-				os.pullEvent("refresh")
+				os.queueEvent("refresh")
 			elseif msg[1] == "CLEAR" then
 				STAT = "CLEAR"
-				os.pullEvent("refresh")
+				os.queueEvent("refresh")
 				rs.setBundledOutput("bottom", 0)
 			elseif msg[1] == "RESET" then
 				os.reboot()
@@ -261,7 +261,7 @@ end
 				STAT = "BUSY"
 				rs.setBundledOutput("bottom", colors.lime)
 			end
-			os.pullEvent("refresh")
+			os.queueEvent("refresh")
 		elseif STAT == "BUSY" then
 			nextLine(7)
 			centerPrint("Elevator busy, please wait")
@@ -275,7 +275,7 @@ end
 					STAT = "CLEAR"
 					send({ "CLEAR", cfg })
 					rs.setBundledOutput("bottom", 0)
-					os.pullEvent("refresh")
+					os.queueEvent("refresh")
 				end
 			end
 		end
