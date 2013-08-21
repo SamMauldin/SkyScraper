@@ -117,7 +117,7 @@ end
 	function menuCompat()
 		-- Somebody help me, I have no idea how else to do this
 		local smenu = table.copy(ELEVATORS)
-		table.insert(smenu, cfg)
+		smenu[#smenu+1] = cfg
 		table.sort(smenu, function (a,b) return (a.y > b.y) end)
 		
 		local sorted = {}
