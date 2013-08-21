@@ -168,7 +168,7 @@ end
 				if SELECTED ~= 1 then
 					if FLOORS[SELECTED - 1] ~= cfg.name then
 						SELECTED = SELECTED - 1
-					elseif SELECTED == 2 then
+					elseif SELECTED == 3 then
 						SELECTED = 1
 					end
 				end
