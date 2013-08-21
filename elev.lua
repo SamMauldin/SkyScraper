@@ -153,7 +153,7 @@ end
 				local val = v
 				if SELECTED == k then
 					val = "[" .. val .. "]"
-				elseif cfg.floor = v then
+				elseif cfg.floor == v then
 					val = ">" .. val .. "<"
 				end
 				centerPrint(val)
