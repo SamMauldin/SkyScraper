@@ -166,7 +166,7 @@ end
 			local e, k = os.pullEvent("key")
 			if k == keys.up then
 				if SELECTED ~= 1 then
-					if FLOORS[SELECTED - 1] ~= cfg.floor then
+					if FLOORS[SELECTED - 1] ~= cfg.name then
 						SELECTED = SELECTED - 1
 					elseif SELECTED == 2 then
 						SELECTED = 1
@@ -174,7 +174,7 @@ end
 				end
 			elseif k == keys.down then
 				if FLOORS[SELECTED + 1] then
-					if FLOORS[SELECTED + 1] ~= cfg.floor then
+					if FLOORS[SELECTED + 1] ~= cfg.name then
 						SELECTED = SELECTED + 1
 					elseif FLOORS[SELECTED + 2] then
 						SELECTED = SELECTED + 2
