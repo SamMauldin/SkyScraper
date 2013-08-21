@@ -270,7 +270,7 @@ end
 				send({ "CALL", cfg })
 				STAT = "COMING"
 				rs.setBundledOutput("bottom", colors.purple)
-			else
+			elseif floor ~= cfg.name then
 				for k, v in pairs(ELEVATORS) do
 					if v.name == floor then
 						send({ "SENDING", v.y, cfg})
