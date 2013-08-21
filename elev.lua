@@ -153,7 +153,7 @@ end
 			for k, v in pairs(FLOORS) do
 				local val = v
 				if cfg.name == v then
-					val = "> " .. val .. " <"
+					val = ">" .. val .. "<"
 				elseif SELECTED == k then
 					val = "[" .. val .. "]"
 				end
