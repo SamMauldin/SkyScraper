@@ -77,6 +77,11 @@ end
 	cfg = {}
 	PORT = 50101
 	PREFIX = "SKYSCRAPER:"
+	COLORS = {
+		detector: colors.white,
+		boarding: colors.orange,
+		elevator: colors.magenta
+	}
 	MODEM = peripheral.wrap("back")
 	ELEVATORS = {}
 	FLOORS = {"Call Elevator"}
@@ -232,7 +237,7 @@ end
 				if STAT == "COMING" then
 				else
 					STAT = "BUSY"
-					rs.setBundledOutput("bottom", colors.lime)
+					rs.setBundledOutput("bottom", COLORS.boarding)
 					sleep(1)
 					rs.setBundledOutput("bottom", 0)
 					refresh()
@@ -242,7 +247,7 @@ end
 				
 				if tostring(msg[2]) == tostring(cfg.y) then
 					STAT = "COMING"
-					rs.setBundledOutput("bottom", colors.purple)
+					rs.setBundledOutput("bottom", COLORS.elevator)
 				end
 				refresh()
 			elseif msg[1] == "DISCOVER" then
@@ -269,7 +274,7 @@ end
 			if floor == "Call Elevator" then
 				send({ "CALL", cfg })
 				STAT = "COMING"
-				rs.setBundledOutput("bottom", colors.purple)
+				rs.setBundledOutput("bottom", COLORS.elevator)
 			elseif floor ~= cfg.name then
 				for k, v in pairs(ELEVATORS) do
 					if v.name == floor then
@@ -277,7 +282,7 @@ end
 					end
 				end
 				STAT = "BUSY"
-				rs.setBundledOutput("bottom", colors.lime)
+				rs.setBundledOutput("bottom", colors.boarding)
 			end
 			refresh()
 		elseif STAT == "BUSY" then
@@ -293,7 +298,7 @@ end
 			centerPrint("Elevator coming, please wait")
 			while true do
 				os.pullEvent("redstone")
-				if colors.test(rs.getBundledInput("bottom"), colors.white) then
+				if colors.test(rs.getBundledInput("bottom"), COLORS.detector) then
 					STAT = "CLEAR"
 					send({ "CLEAR", cfg })
 					rs.setBundledOutput("bottom", 0)
