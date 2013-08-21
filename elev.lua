@@ -152,10 +152,10 @@ end
 			nextLine(2)
 			for k, v in pairs(FLOORS) do
 				local val = v
-				if SELECTED == k then
-					val = "[" .. val .. "]"
-				elseif cfg.name == v then
+				if cfg.name == v then
 					val = ">" .. val .. "<"
+				elseif SELECTED == k then
+					val = "[" .. val .. "]"
 				end
 				centerPrint(val)
 				nextLine()
