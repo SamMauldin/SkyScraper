@@ -74,6 +74,7 @@ end
 	clear()
 
 -- Vars
+	cfg = {}
 	PORT = 50101
 	PREFIX = "SKYSCRAPER:"
 	MODEM = peripheral.wrap("back")
@@ -192,7 +193,6 @@ end
 	if not fs.exists("/sky.cfg") then
 		centerPrint("SkyScraper configuration")
 		term.setCursorPos(1, 2)
-		local cfg = {}
 		write("Y-Level: ")
 		cfg.y = tonumber(read())
 		write("Floor name: ")
