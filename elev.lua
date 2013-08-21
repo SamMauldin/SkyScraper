@@ -282,7 +282,7 @@ end
 					end
 				end
 				STAT = "BUSY"
-				rs.setBundledOutput("bottom", colors.boarding)
+				rs.setBundledOutput("bottom", COLORS.boarding)
 			end
 			refresh()
 		elseif STAT == "BUSY" then
