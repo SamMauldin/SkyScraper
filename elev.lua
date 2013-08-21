@@ -78,9 +78,9 @@ end
 	PORT = 50101
 	PREFIX = "SKYSCRAPER:"
 	COLORS = {
-		detector: colors.white,
-		boarding: colors.orange,
-		elevator: colors.magenta
+		["detector"] = colors.white,
+		["boarding"] = colors.orange,
+		["elevator"] = colors.magenta
 	}
 	MODEM = peripheral.wrap("back")
 	ELEVATORS = {}
@@ -158,7 +158,7 @@ end
 			for k, v in pairs(FLOORS) do
 				local val = v
 				if cfg.name == v then
-					val = ">" .. val .. "<"
+					val = "-" .. val .. "-"
 				elseif SELECTED == k then
 					val = "[" .. val .. "]"
 				end
