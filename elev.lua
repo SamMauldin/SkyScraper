@@ -171,7 +171,7 @@ end
 			elseif k == keys.enter then
 				local sel = FLOORS[SELECTED]
 				SELECTED = 1
-				return sec
+				return sel
 			end
 			render()
 		end
