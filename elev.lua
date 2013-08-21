@@ -26,7 +26,7 @@ end
 		fh.close()
 	else
 		clear()
-		centerPrint("SkyScraper")
+		centerPrint("SkyScraper by Sxw1212")
 		nextLine()
 		centerPrint("Warning: Updater failed")
 		sleep(1)
@@ -38,7 +38,7 @@ end
 		fh.close()
 	else
 		clear()
-		centerPrint("SkyScraper")
+		centerPrint("SkyScraper by Sxw1212")
 		nextLine()
 		centerPrint("Warning: Updater failed")
 		sleep(1)
@@ -48,7 +48,7 @@ end
 	os.loadAPI("goroutine")
 
 	clear()
-	centerPrint("SkyScraper")
+	centerPrint("SkyScraper by Sxw1212")
 	nextLine()
 	centerPrint("Elevator starting. Please wait")
 	nextLine()
@@ -148,7 +148,7 @@ end
 		local function render()
 			clear()
 			term.setCursorPos(1, 1)
-			centerPrint("SkyScraper")
+			centerPrint("SkyScraper by Sxw1212")
 			nextLine(2)
 			for k, v in pairs(FLOORS) do
 				local val = v
@@ -282,13 +282,13 @@ end
 			refresh()
 		elseif STAT == "BUSY" then
 			clear()
-			centerPrint("SkyScraper")
+			centerPrint("SkyScraper by Sxw1212")
 			nextLine(7)
 			centerPrint("Elevator busy, please wait")
 			os.pullEvent("AReallyLongEventThatYou'dBetterNotCallOrElse...")
 		elseif STAT == "COMING" then
 			clear()
-			centerPrint("SkyScraper")
+			centerPrint("SkyScraper by Sxw1212")
 			nextLine(7)
 			centerPrint("Elevator coming, please wait")
 			while true do
