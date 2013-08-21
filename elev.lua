@@ -126,7 +126,7 @@ end
 		for i = 1, len do
 			sorted[i] = smenu[i].name
 		end
-		sorted[len+1] = "Call Elevator"
+		table.insert(sorted, 1, "Call Elevator")
 		FLOORS = sorted
 	end
 	
