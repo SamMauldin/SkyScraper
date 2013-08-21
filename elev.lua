@@ -147,7 +147,7 @@ end
 			clear()
 			term.setCursorPos(1, 1)
 			centerPrint("SkyScraper")
-			nextLine()
+			nextLine(2)
 			for k, v in pairs(FLOORS) do
 				local val = v
 				if SELECTED == k then
@@ -186,14 +186,11 @@ end
 		cfg.y = tonumber(read())
 		write("Floor name: ")
 		cfg.name = read()
-		centerPrint("Saving...")
-		sleep(0.25)
 		
 		local fh = fs.open("/sky.cfg", "w")
 		fh.write(textutils.serialize(cfg))
 		fh.close()
 		
-		nextLine()
 		centerPrint("Done!")
 		sleep(0.25)
 		clear()
@@ -205,7 +202,6 @@ end
 		centerPrint("SkyScraper configuration")
 		nextLine()
 		centerPrint("Loaded from file!")
-		sleep(0.25)
 		clear()
 		cfg.y = tonumber(cfg.y)
 	else
@@ -275,11 +271,13 @@ end
 			refresh()
 		elseif STAT == "BUSY" then
 			clear()
+			centerPrint("SkyScraper")
 			nextLine(7)
 			centerPrint("Elevator busy, please wait")
 			os.pullEvent("AReallyLongEventThatYou'dBetterNotCallOrElse...")
 		elseif STAT == "COMING" then
 			clear()
+			centerPrint("SkyScraper")
 			nextLine(7)
 			centerPrint("Elevator coming, please wait")
 			while true do
