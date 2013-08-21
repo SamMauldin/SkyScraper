@@ -117,6 +117,7 @@ end
 	function menuCompat()
 		-- Somebody help me, I have no idea how else to do this
 		local smenu = table.copy(ELEVATORS)
+		table.insert(smenu, cfg)
 		table.sort(smenu, function (a,b) return (a.y > b.y) end)
 		
 		local sorted = {}
@@ -152,6 +153,8 @@ end
 				local val = v
 				if SELECTED == k then
 					val = "[" .. val .. "]"
+				elseif cfg.floor = v then
+					val = ">" .. val .. "<"
 				end
 				centerPrint(val)
 				nextLine()
@@ -162,11 +165,19 @@ end
 			local e, k = os.pullEvent("key")
 			if k == keys.up then
 				if SELECTED ~= 1 then
-					SELECTED = SELECTED - 1
+					if FLOORS[SELECTED - 1] ~= cfg.floor then
+						SELECTED = SELECTED - 1
+					elseif SELECTED == 2 then
+						SELECTED = 1
+					end
 				end
 			elseif k == keys.down then
 				if FLOORS[SELECTED + 1] then
-					SELECTED = SELECTED + 1
+					if FLOORS[SELECTED + 1] ~= cfg.floor then
+						SELECTED = SELECTED + 1
+					elseif FLOORS[SELECTED + 2] then
+						SELECTED = SELECTED + 2
+					end
 				end
 			elseif k == keys.enter then
 				local sel = FLOORS[SELECTED]
