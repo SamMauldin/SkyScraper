@@ -55,9 +55,9 @@ end
 	centerPrint("Running System Test...")
 	
 	if peripheral.getType("bottom") ~= "rednet_cable" then
-		nextLine()
-		centerPrint("Error: No cable on bottom")
-		error()
+		--nextLine()
+		--centerPrint("Error: No cable on bottom")
+		--error()
 	end
 	if peripheral.getType("back") ~= "modem" then
 		nextLine()
